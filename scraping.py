@@ -20,6 +20,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
+        "hemispheres": hemisphere_image_urls,
         "last_modified": dt.datetime.now()
     }
 
@@ -103,8 +104,47 @@ if __name__ == "__main__":
     # If running as script, print scraped data
     print(scrape_all())
 
+# Scrape Hemisphere Data
+def hemispheres(browser):
+    url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"        
+    browser.visit(url)
 
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
 
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    links = browser.find_by_css("a.product-item h3")
+    links2 = browser.find_by_xpath("//a[@class='itemLink product-item']/h3")
+
+    for i in range(len(links2)):
+        
+        #create empty dictionary
+        hemispheres = {}
+        
+        #Find image tage
+        browser.find_by_xpath("//a[@class='itemLink product-item']/h3")[i].click()
+        
+        # Find Sample Image Anchor Tag & Extract <href>
+        sample_element = browser.find_link_by_text("Sample").first
+        hemispheres["img_url"] = sample_element["href"]
+            
+        #Get Title
+        hemispheres["title"] = browser.find_by_css("h2.title").text
+
+        #Append
+        hemisphere_image_urls.append(hemispheres)
+            
+        browser.back()
+        
+    print(hemisphere_image_urls)
+
+    # 4. Print the list that holds the dictionary of each image url and title.
+    hemisphere_image_urls
+
+    # 5. Quit the browser
+    browser.quit()
+
+    return hemisphere_image_urls
 
 # # Import Splinter and BeautifulSoup
 # from splinter import Browser
