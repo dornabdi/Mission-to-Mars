@@ -13,6 +13,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
+    hemisphere_image_urls = hemispheres(browser)
 
     # Run all scraping functions and store results in a dictionary
     data = {
@@ -99,11 +100,6 @@ def mars_facts():
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
 
-if __name__ == "__main__":
-
-    # If running as script, print scraped data
-    print(scrape_all())
-
 # Scrape Hemisphere Data
 def hemispheres(browser):
     url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"        
@@ -131,7 +127,7 @@ def hemispheres(browser):
         #Get Title
         hemispheres["title"] = browser.find_by_css("h2.title").text
 
-        #Append
+        #Append to the list
         hemisphere_image_urls.append(hemispheres)
             
         browser.back()
@@ -145,6 +141,11 @@ def hemispheres(browser):
     browser.quit()
 
     return hemisphere_image_urls
+
+if __name__ == "__main__":
+
+    # If running as script, print scraped data
+    print(scrape_all())
 
 # # Import Splinter and BeautifulSoup
 # from splinter import Browser
