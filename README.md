@@ -11,5 +11,6 @@ Scraped Full-Resolution Mars Hemisphere Images and Titles from NASA's website.
 Updated the Flask Web App with the scraped Mars Hemisphere Images and Titles.
 
 ### Deliverable 3
-Add Bootstrap 3 Components to finalize the design of the site. 
+Add Bootstrap 3 Components to finalize the design of the site. See image of the website below!
 
+![hemispheres](hemispheres.png)
